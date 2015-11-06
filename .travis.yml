@@ -10,3 +10,7 @@ before_install:
   - ./install-icc.sh
 script:
   - icc -o test/test test/test.c
+notifications:
+  email:
+    on_success: change
+    on_failure: change
