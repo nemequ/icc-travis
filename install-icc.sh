@@ -34,16 +34,25 @@ while [ $# != 0 ]; do
     shift
 done
 
-INSTALLER_NAME=parallel_studio_xe_2016_online.sh
-
-if [ ! -e "${INSTALLER_NAME}" ]; then
-	wget -O "${TEMPORARY_FILES}/${INSTALLER_NAME}" \
-		http://registrationcenter-download.intel.com/akdlm/irc_nas/7997/parallel_studio_xe_2016_online.sh \
-		|| exit 1
-fi
-chmod u+x "${INSTALLER_NAME}"
-
+INSTALLER="${TEMPORARY_FILES}/parallel_studio_xe_2016_online.sh"
+INSTALLER_URL="http://registrationcenter-download.intel.com/akdlm/irc_nas/7997/parallel_studio_xe_2016_online.sh"
 SILENT_CFG="${TEMPORARY_FILES}/silent.cfg"
+
+if [ ! -e "${TEMPORARY_FILES}" ]; then
+    sudo mkdir -p "${TEMPORARY_FILES}"
+    sudo chown -R "${USER}:${USER}" "${TEMPORARY_FILES}"
+fi
+
+if [ ! -e "${DESTINATION}" ]; then
+    sudo mkdir -p "${DESTINATION}"
+    sudo chown -R "${USER}:${USER}" "${DESTINATION}"
+fi
+
+if [ ! -e "${INSTALLER}" ]; then
+	wget -O "${INSTALLER}" "${INSTALLER_URL}" || exit 1
+fi
+chmod u+x "${INSTALLER}"
+
 # See https://software.intel.com/en-us/articles/intel-composer-xe-2015-silent-installation-guide
 echo "# Generated silent configuration file" > "${SILENT_CFG}"
 echo "ACCEPT_EULA=accept" >> "${SILENT_CFG}"
@@ -57,10 +66,11 @@ echo "ACTIVATION_SERIAL_NUMBER=${INTEL_SERIAL_NUMBER}" >> "${SILENT_CFG}"
 echo "ACTIVATION_TYPE=serial_number" >> "${SILENT_CFG}"
 echo "PHONEHOME_SEND_USAGE_DATA=${PHONE_INTEL}" >> "${SILENT_CFG}"
 
-"${TEMPORARY_FILES}/${INSTALLER_NAME}" \
+"${INSTALLER}" \
     -t "${TEMPORARY_FILES}" \
     -s "${SILENT_CFG}" \
-    --cli-mode &
+    --cli-mode \
+    --user-mode &
 
 # So Travis doesn't die in case of a long download
 elapsed=0;
