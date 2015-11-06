@@ -1,7 +1,8 @@
 # Install Intel C/C++ Compiler on Travis CI
 
 **THIS DOES NOT WORK YET**.  I'm working on it.  If you want to be
-notified when it does work, subscribe to notifications for issue #1.
+notified when it does work, subscribe to notifications for
+[issue #1](https://github.com/nemequ/icc-travis/issues/1).
 
 This project is intended to provide an easy way to use Intel's
 [silent installer](https://software.intel.com/en-us/articles/intel-composer-xe-2015-silent-installation-guide)
