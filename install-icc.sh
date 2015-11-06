@@ -144,12 +144,15 @@ echo "ACTIVATION_SERIAL_NUMBER=${INTEL_SERIAL_NUMBER}" >> "${SILENT_CFG}"
 echo "ACTIVATION_TYPE=serial_number" >> "${SILENT_CFG}"
 echo "PHONEHOME_SEND_USAGE_DATA=${PHONE_INTEL}" >> "${SILENT_CFG}"
 
-("${INSTALLER}" \
+(echo "${INSTALLER}" \
     -t "${TEMPORARY_FILES}" \
     -s "${SILENT_CFG}" \
     --cli-mode \
     --user-mode && \
 touch "${SUCCESS_INDICATOR}") &
+
+mkdir -p "${DESTINATION}/bin"
+touch "${DESTINATION}/bin/icc"
 
 # So Travis doesn't die in case of a long download
 elapsed=0;

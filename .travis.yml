@@ -10,6 +10,8 @@ before_install:
   - ./install-icc.sh
 script:
   - cat ~/.bashrc
+  - echo $PATH
+  - which icc
   - icc -o test/test test/test.c
 notifications:
   email:
