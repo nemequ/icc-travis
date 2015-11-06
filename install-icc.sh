@@ -15,7 +15,7 @@
 
 # Default values; these can be changed with command line arguments:
 DESTINATION="/opt/intel"
-TEMPORARY_FILES="$PWD"
+TEMPORARY_FILES="/tmp"
 COMPONENTS="\"intel-icc-doc__noarch;intel-icc-ps-doc__noarch;intel-icc-ps-ss-doc__noarch;intel-icc-l-all__x86_64;intel-icc-l-ps-ss__x86_64;intel-icc-l-all-vars__noarch;intel-icc-l-all-common__noarch;intel-icc-l-ps-common__noarch;intel-icc-l-all-devel__x86_64;intel-icc-l-ps-devel__x86_64;intel-icc-l-ps-ss-devel__x86_64\""
 PHONE_INTEL="no"
 
@@ -39,11 +39,13 @@ INSTALLER_URL="http://registrationcenter-download.intel.com/akdlm/irc_nas/7997/p
 SILENT_CFG="${TEMPORARY_FILES}/silent.cfg"
 
 if [ ! -e "${TEMPORARY_FILES}" ]; then
+    echo "${TEMPORARY_FILES} does not exist, creating…"
     sudo mkdir -p "${TEMPORARY_FILES}"
     sudo chown -R "${USER}:${USER}" "${TEMPORARY_FILES}"
 fi
 
 if [ ! -e "${DESTINATION}" ]; then
+    echo "${DESTINATION} does not exist, creating…"
     sudo mkdir -p "${DESTINATION}"
     sudo chown -R "${USER}:${USER}" "${DESTINATION}"
 fi
