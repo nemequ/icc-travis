@@ -178,12 +178,16 @@ SYMDIR="${HOME}/.local/bin"
 if [ ! -e "${SYMDIR}" ]; then
     mkdir -p "${SYMDIR}"
 fi
-find "${DESTINATION}" -name compilervars_arch.sh -exec cat {} +
 for executable in "${DESTINATION}"/bin/*; do
     bn="$(basename "${executable}")"
     WRAPPER="${SYMDIR}/${bn}"
     cat >"${WRAPPER}" <<EOF
 #!/bin/sh
+if [ -z "\${INTEL_COMPILER_VARS_INITIALIZED}" ]; then
+  ./"${DESTINATION}"/compilers_and_libraries_2016/linux/bin/compilervars.sh
+  export INTEL_COMPILER_VARS_INITIALIZED=yes
+fi
+echo \$LD_LIBRARY_PATH
 LD_LIBRARY_PATH="${DESTINATION}/ism/bin/intel64:\$LD_LIBRARY_PATH" ${executable} "\$@"
 EOF
     chmod u+x "${WRAPPER}"
