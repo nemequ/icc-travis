@@ -16,7 +16,7 @@
 # Default values; these can be changed with command line arguments:
 DESTINATION="/opt/intel"
 TEMPORARY_FILES="/tmp"
-COMPONENTS="\"intel-icc-doc__noarch;intel-icc-ps-doc__noarch;intel-icc-ps-ss-doc__noarch;intel-icc-l-all__x86_64;intel-icc-l-ps-ss__x86_64;intel-icc-l-all-vars__noarch;intel-icc-l-all-common__noarch;intel-icc-l-ps-common__noarch;intel-icc-l-all-devel__x86_64;intel-icc-l-ps-devel__x86_64;intel-icc-l-ps-ss-devel__x86_64\""
+COMPONENTS="\"intel-icc-l-all__x86_64;intel-icc-l-ps-ss__x86_64;intel-icc-l-all-vars__noarch;intel-icc-l-all-common__noarch;intel-icc-l-ps-common__noarch;intel-icc-l-all-devel__x86_64;intel-icc-l-ps-devel__x86_64;intel-icc-l-ps-ss-devel__x86_64\""
 PHONE_INTEL="no"
 
 while [ $# != 0 ]; do
