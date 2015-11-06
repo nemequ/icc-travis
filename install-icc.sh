@@ -37,6 +37,7 @@ done
 INSTALLER="${TEMPORARY_FILES}/parallel_studio_xe_2016_online.sh"
 INSTALLER_URL="http://registrationcenter-download.intel.com/akdlm/irc_nas/7997/parallel_studio_xe_2016_online.sh"
 SILENT_CFG="${TEMPORARY_FILES}/silent.cfg"
+SUCCESS_INDICATOR="${TEMPORARY_FILES}/icc-travis-success"
 
 if [ ! -e "${TEMPORARY_FILES}" ]; then
     echo "${TEMPORARY_FILES} does not exist, creating…"
@@ -68,11 +69,12 @@ echo "ACTIVATION_SERIAL_NUMBER=${INTEL_SERIAL_NUMBER}" >> "${SILENT_CFG}"
 echo "ACTIVATION_TYPE=serial_number" >> "${SILENT_CFG}"
 echo "PHONEHOME_SEND_USAGE_DATA=${PHONE_INTEL}" >> "${SILENT_CFG}"
 
-"${INSTALLER}" \
+("${INSTALLER}" \
     -t "${TEMPORARY_FILES}" \
     -s "${SILENT_CFG}" \
     --cli-mode \
-    --user-mode &
+    --user-mode && \
+touch "${SUCCESS_INDICATOR}") &
 
 # So Travis doesn't die in case of a long download
 elapsed=0;
@@ -84,5 +86,10 @@ while kill -0 $! 2>/dev/null; do
     fi
 done
 
-ls -lR "${DESTINATION}"
-exit 1
+if [ ! -e "${SUCCESS_INDICATOR}" ]; then
+    echo "Installation failed."
+    ls -lR "${DESTINATION}"
+    exit 1
+fi
+
+export PATH="${DESTINATION}/bin:$PATH"
