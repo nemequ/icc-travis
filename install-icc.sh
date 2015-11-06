@@ -177,9 +177,10 @@ if [ ! -e "${SYMDIR}" ]; then
     mkdir -p "${SYMDIR}"
 fi
 for executable in "${DESTINATION}"/bin/*; do
-    cat >"${SYMDIR}"/$(basename "${executable}") <<EOF
+    WRAPPER="${SYMDIR}"/$(basename "${executable}")
+    cat >"${WRAPPER}" <<EOF
 #!/bin/sh
 LD_LIBRARY_PATH="${DESTINATION}/ism/bin/intel64:\$LD_LIBRARY_PATH" ${executable} "\$@"
 EOF
-    cat "${SYMDIR}"/$(basename "${executable}")
+    chmod u+x "${WRAPPER}"
 done
