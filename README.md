@@ -25,6 +25,34 @@ execute it.  Once it completes, you should have `icc` in your path.
 Once this script is working you can use
 [Squash](https://quixdb.github.io/squash) as an example.
 
+### Arguments
+
+Currently, there are three arguments you can pass:
+
+ - `--dest`: Location to install to.  Default: /opt/intel
+ - `--tmpdir`: Location for temporary files.  Default: /tmp
+ - `--components`: comma-separated list of components to install.
+   Valid components are:
+   - icc
+   - mpi
+   - vtune
+   - inspector
+   - advisor
+   - openmp
+   - tbb
+   - ifort
+   - mkl
+   - ipp
+   - ipp-crypto
+   - gdb
+   If you do not pass a component argument, the "icc" component and
+   *only* the "icc" component is installed.  If you do pass a
+   component then icc will no longer be intalled by default (mainly
+   useful if you want to use FORTRAN not C).
+
+Use a space to separate argument names from values (*i.e.*, `--dest
+/opt/foo` not `--dest=/opt/foo`.
+
 ## Restrictions
 
 ICC is *not* free software.  It's proprietary (and expensive).  Intel
