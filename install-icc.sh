@@ -1,17 +1,16 @@
 #!/bin/sh
 
 # Install Intel Parallel Studio on Travis CI
+# https://github.com/nemequ/icc-travis
+#
 # Originally written for Squash <https://github.com/quixdb/squash>
 # by Evan Nemerson <evan@nemerson.com>.  For bug reports, please use
-# <https://github.com/nemequ/travis-intel>
+# <https://github.com/nemequ/icc-travis>
 #
-# This script is meant to be used on Travis CI; it hasn't been tested
-# anywhere else.
-#
-# To use it, you must set the INTEL_SERIAL_NUMBER environment variable
-# to your serial number.  You should use Travis' support for secure
-# environment variables to do this; see
-# <http://docs.travis-ci.com/user/encryption-keys/>.
+# To the extent possible under law, the author(s) of this script have
+# waived all copyright and related or neighboring rights to this work.
+# See <https://creativecommons.org/publicdomain/zero/1.0/> for
+# details.
 
 COMPONENTS_ICC="intel-icc-l-all__x86_64;intel-icc-l-ps-ss__x86_64;intel-icc-l-all-vars__noarch;intel-icc-l-all-common__noarch;intel-icc-l-ps-common__noarch;intel-icc-l-all-devel__x86_64;intel-icc-l-ps-devel__x86_64;intel-icc-l-ps-ss-devel__x86_64"
 COMPONENTS_MPI="intel-mpi-rt-core__x86_64;intel-mpi-rt-mic__x86_64;intel-mpi-sdk-core__x86_64;intel-mpi-sdk-mic__x86_64;intel-mpi-psxe__x86_64;intel-mpi-rt-psxe__x86_64"
@@ -166,6 +165,8 @@ if [ ! -e "${SUCCESS_INDICATOR}" ]; then
     echo "Installation failed."
     ls -lR "${DESTINATION}"
     exit 1
+else
+    echo "Installation successful!"
 fi
 
 export PATH="${DESTINATION}/bin:$PATH"
