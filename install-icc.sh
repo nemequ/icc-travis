@@ -83,3 +83,6 @@ while kill -0 $! 2>/dev/null; do
 	echo "Still running... (about $(expr $elapsed / 60) minutes so far)."
     fi
 done
+
+ls -lR "${DESTINATION}"
+exit 1
