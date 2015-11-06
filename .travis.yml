@@ -9,9 +9,6 @@ env:
 before_install:
   - ./install-icc.sh
 script:
-  - echo $PATH
-  - ls -l /home/travis/.local/bin
-  - which icc
   - icc -o test/test test/test.c
 notifications:
   email:

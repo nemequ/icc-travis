@@ -3,9 +3,9 @@
 # Install Intel Parallel Studio on Travis CI
 # https://github.com/nemequ/icc-travis
 #
-# Originally written for Squash <https://github.com/quixdb/squash>
-# by Evan Nemerson <evan@nemerson.com>.  For bug reports, please use
-# <https://github.com/nemequ/icc-travis>
+# Originally written for Squash <https://github.com/quixdb/squash> by
+# Evan Nemerson.  For documentation, bug reports, support requests,
+# etc. please use <https://github.com/nemequ/icc-travis>.
 #
 # To the extent possible under law, the author(s) of this script have
 # waived all copyright and related or neighboring rights to this work.
@@ -151,7 +151,7 @@ echo "PHONEHOME_SEND_USAGE_DATA=${PHONE_INTEL}" >> "${SILENT_CFG}"
     --user-mode && \
 touch "${SUCCESS_INDICATOR}") &
 
-# So Travis doesn't die in case of a long download
+# So Travis doesn't die in case of a long download/installation.
 elapsed=0;
 while kill -0 $! 2>/dev/null; do
     sleep 1
