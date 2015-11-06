@@ -25,7 +25,7 @@ COMPONENTS_IPP="intel-ipp-l-common__noarch;intel-ipp-l-ps-common__noarch;intel-i
 COMPONENTS_IPP_CRYPTO="intel-crypto-ipp-st-devel__x86_64;intel-crypto-ipp-ps-st-devel__x86_64;intel-crypto-ipp-st__x86_64;intel-crypto-ipp-mt-devel__x86_64;intel-crypto-ipp-mt__x86_64;intel-crypto-ipp-ss-st-devel__x86_64;intel-crypto-ipp-common__noarch"
 COMPONENTS_GDB="intel-gdb-gt__x86_64;intel-gdb-gt-src__noarch;intel-gdb-gt-libelfdwarf__x86_64;intel-gdb-gt-devel__x86_64;intel-gdb-gt-common__noarch;intel-gdb-ps-cdt__x86_64;intel-gdb-ps-cdt-source__x86_64;intel-gdb-ps-mic__x86_64;intel-gdb-ps-mpm__x86_64;intel-gdb__x86_64;intel-gdb-source__noarch;intel-gdb-python-source__noarch;intel-gdb-common__noarch;intel-gdb-ps-common__noarch"
 
-DESTINATION="/opt/intel"
+DESTINATION="${HOME}/intel"
 TEMPORARY_FILES="/tmp"
 PHONE_INTEL="no"
 COMPONENTS=""
@@ -115,15 +115,13 @@ SILENT_CFG="${TEMPORARY_FILES}/silent.cfg"
 SUCCESS_INDICATOR="${TEMPORARY_FILES}/icc-travis-success"
 
 if [ ! -e "${TEMPORARY_FILES}" ]; then
-    echo "${TEMPORARY_FILES} does not exist, creating…"
-    sudo mkdir -p "${TEMPORARY_FILES}"
-    sudo chown -R "${USER}:${USER}" "${TEMPORARY_FILES}"
+    echo "${TEMPORARY_FILES} does not exist, creating..."
+    mkdir -p "${TEMPORARY_FILES}" || (sudo mkdir -p "${TEMPORARY_FILES}" && sudo chown -R "${USER}:${USER}" "${TEMPORARY_FILES}")
 fi
 
 if [ ! -e "${DESTINATION}" ]; then
-    echo "${DESTINATION} does not exist, creating…"
-    sudo mkdir -p "${DESTINATION}"
-    sudo chown -R "${USER}:${USER}" "${DESTINATION}"
+    echo "${DESTINATION} does not exist, creating..."
+    mkdir -p "${DESTINATION}" || (sudo mkdir -p "${DESTINATION}" && sudo chown -R "${USER}:${USER}" "${DESTINATION}")
 fi
 
 if [ ! -e "${INSTALLER}" ]; then
