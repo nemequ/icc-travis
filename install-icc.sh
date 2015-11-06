@@ -97,7 +97,6 @@ while [ $# != 0 ]; do
 		esac
 	    done
 	    IFS="${OLD_IFS}"
-	    shift
 	    ;;
 	*)
 	    echo "Unrecognized argument '$1'"
