@@ -187,7 +187,6 @@ EOF
     chmod u+x "${WRAPPER}"
 done
 
-find "${DESTINATION}" -name '*vars.*' -exec ls -l {} +
-find "${DESTINATION}" -name '*vars.*' -exec cat {} +
+ls -l "${DESTINATION}"/compilers_and_libraries_*/linux/bin
 
 echo "Installation successful!"
