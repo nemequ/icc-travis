@@ -164,6 +164,9 @@ if [ ! -e "${SUCCESS_INDICATOR}" ]; then
     exit 1
 else
     echo "Installation successful!"
+    ls ~/intel/licenses | wc -l
+    ls ~/intel/Licenses | wc -l
+    ls "${DESTINATION}"/compilers_and_libraries_*/linux/bin/intel64/*.lic | wc -l
 fi
 
 # We can't just export a new path since it will not persist to the
