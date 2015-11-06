@@ -179,11 +179,11 @@ fi
 for executable in "${DESTINATION}"/bin/*; do
     executable="$(readlink "${executable}")"
     bn="$(basename "${executable}")"
-    case "${bn}" in
-	"icc")
-	    cat "$(dirname "${executable}")/iccvars.sh"
-	    ;;
-    esac
+    # case "${bn}" in
+    # 	"icc")
+    # 	    cat "$(dirname "${executable}")/iccvars.sh"
+    # 	    ;;
+    # esac
     WRAPPER="${SYMDIR}"/$(basename "${bn}")
     cat >"${WRAPPER}" <<EOF
 #!/bin/sh
@@ -193,5 +193,6 @@ EOF
 done
 
 find "${DESTINATION}" -name '*vars.*'
+cat "${DESTINATION}"/compilers_and_libraries_*/linux/bin/iccvars.sh
 
 echo "Installation successful!"
