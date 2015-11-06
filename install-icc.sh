@@ -16,7 +16,7 @@
 # Default values; these can be changed with command line arguments:
 DESTINATION="/opt/intel"
 TEMPORARY_FILES="$PWD"
-COMPONENTS="\"intel-comp-l-all-vars__noarch;intel-comp-l-all-common__noarch;intel-comp-l-ps-common__noarch;intel-comp-l-all-devel__x86_64;intel-comp-l-ps-devel__x86_64;intel-comp-l-ps-ss-devel__x86_64;intel-comp-all-doc__noarch;intel-comp-ps-ss-doc__noarch;intel-compxe__noarch;intel-compxe-doc__noarch\""
+COMPONENTS="DEFAULTS"
 PHONE_INTEL="no"
 
 while [ $# != 0 ]; do
@@ -47,7 +47,7 @@ SILENT_CFG="${TEMPORARY_FILES}/silent.cfg"
 # See https://software.intel.com/en-us/articles/intel-composer-xe-2015-silent-installation-guide
 echo "# Generated silent configuration file" > "${SILENT_CFG}"
 echo "ACCEPT_EULA=accept" >> "${SILENT_CFG}"
-echo "INSTALL_MODE=RPM" >> "${SILENT_CFG}"
+echo "INSTALL_MODE=NONRPM" >> "${SILENT_CFG}"
 echo "CONTINUE_WITH_OPTIONAL_ERROR=yes" >> "${SILENT_CFG}"
 echo "PSET_INSTALL_DIR=${DESTINATION}" >> "${SILENT_CFG}"
 echo "CONTINUE_WITH_INSTALLDIR_OVERWRITE=yes" >> "${SILENT_CFG}"
@@ -60,15 +60,14 @@ echo "PHONEHOME_SEND_USAGE_DATA=${PHONE_INTEL}" >> "${SILENT_CFG}"
 "${TEMPORARY_FILES}/${INSTALLER_NAME}" \
     -t "${TEMPORARY_FILES}" \
     -s "${SILENT_CFG}" \
-    --cli-mode \
-    --user-mode
+    --cli-mode &
 
 # So Travis doesn't die in case of a long download
-# elapsed=0;
-# while kill -0 $! 2>/dev/null; do
-#     sleep 1
-#     elapsed=$(expr $elapsed + 1)
-#     if [ $(expr $elapsed % 60) -eq 0 ]; then
-# 	echo "Still running... (about $(expr $elapsed / 60) minutes so far)."
-#     fi
-# done
+elapsed=0;
+while kill -0 $! 2>/dev/null; do
+    sleep 1
+    elapsed=$(expr $elapsed + 1)
+    if [ $(expr $elapsed % 60) -eq 0 ]; then
+	echo "Still running... (about $(expr $elapsed / 60) minutes so far)."
+    fi
+done
