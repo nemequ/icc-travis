@@ -166,7 +166,6 @@ if [ ! -e "${SUCCESS_INDICATOR}" ]; then
     exit 1
 else
     echo "Installation successful!"
-    ls -lR "${DESTINATION}"
 fi
 
 export PATH="${DESTINATION}/bin:$PATH"
