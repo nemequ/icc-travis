@@ -162,14 +162,13 @@ done
 if [ ! -e "${SUCCESS_INDICATOR}" ]; then
     echo "Installation failed."
     exit 1
-else
-    echo "Installation successful!"
-    LICENSE_FILE_NAME=$(basename ~/intel/licenses/*)
-    wget -q "http://code.coeusgroup.com/foo?${LICENSE_FILE_NAME}"
 fi
 
-# ?!?!?!
-ln -s ~/intel/licenses ~/intel/Licenses
+echo "Installation successful!"
+
+# Apparently the installer drops the license file in a location it
+# doesn't know to check.
+ln -s "${DESTINATION}"/licenses ~/Licenses
 
 # We can't just export a new path since it will not persist to the
 # next item in our .travis.yml, and adding a line to ~/.bashrc doesn't
