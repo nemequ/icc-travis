@@ -144,15 +144,12 @@ echo "ACTIVATION_SERIAL_NUMBER=${INTEL_SERIAL_NUMBER}" >> "${SILENT_CFG}"
 echo "ACTIVATION_TYPE=serial_number" >> "${SILENT_CFG}"
 echo "PHONEHOME_SEND_USAGE_DATA=${PHONE_INTEL}" >> "${SILENT_CFG}"
 
-(echo "${INSTALLER}" \
+("${INSTALLER}" \
     -t "${TEMPORARY_FILES}" \
     -s "${SILENT_CFG}" \
     --cli-mode \
     --user-mode && \
 touch "${SUCCESS_INDICATOR}") &
-
-mkdir -p "${DESTINATION}/bin"
-touch "${DESTINATION}/bin/icc"
 
 # So Travis doesn't die in case of a long download
 elapsed=0;
@@ -172,5 +169,13 @@ else
 fi
 
 # We can't just export a new path since it will not persist to the
-# next item in our .travis.yml, so just add a line to .bashrc.
-echo "export PATH=\"${DESTINATION}/bin:\$PATH\"" >> ~/.bashrc
+# next item in our .travis.yml, and adding a line to ~/.bashrc doesn't
+# work either, so we'll just dump a bunch of symlinks in a directory
+# which is already in $PATH.
+SYMDIR="${HOME}/.local/bin"
+if [ ! -e "${SYMDIR}" ]; then
+    mkdir -p "${SYMDIR}"
+fi
+for executable in "${DESTINATION}/bin/*"; do
+    ln -s "${executable}" "${SYMDIR}/$(basename "${executable}")"
+done
