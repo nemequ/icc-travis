@@ -187,5 +187,7 @@ EOF
 done
 
 ls -l "${DESTINATION}"/compilers_and_libraries_*/linux/bin
+echo "Looking for libimf..."
+find "${DESTINATION}" -name 'libimf.so*'
 
 echo "Installation successful!"
