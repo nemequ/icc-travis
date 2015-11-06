@@ -185,6 +185,6 @@ EOF
     chmod u+x "${WRAPPER}"
 done
 
-find "${DESTINATION}" -name 'libimf.*'
+find "${DESTINATION}" -name '*vars.*'
 
 echo "Installation successful!"
