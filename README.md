@@ -49,7 +49,7 @@ wget -q -O /dev/stdout \
 
 Currently, there are three arguments you can pass:
 
- - `--dest`: Location to install to.  Default: /opt/intel
+ - `--dest`: Location to install to.  Default: ${HOME}/intel
  - `--tmpdir`: Location for temporary files.  Default: /tmp
  - `--components`: comma-separated list of components to install. Valid components are:
 
@@ -88,4 +88,5 @@ to screw this up for the rest of us.
 To the extent possible under law, the author(s) of this script have
 waived all copyright and related or neighboring rights to this work.
 For details, see the
-[CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/) for details.
+[CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/)
+for details.
