@@ -178,7 +178,7 @@ SYMDIR="${HOME}/.local/bin"
 if [ ! -e "${SYMDIR}" ]; then
     mkdir -p "${SYMDIR}"
 fi
-cat "${DESTINATION}"/bin/compilervars.sh
+find "${DESTINATION}" -name compilervars_arch.sh -exec cat {} +
 for executable in "${DESTINATION}"/bin/*; do
     bn="$(basename "${executable}")"
     WRAPPER="${SYMDIR}/${bn}"
