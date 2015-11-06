@@ -164,8 +164,6 @@ if [ ! -e "${SUCCESS_INDICATOR}" ]; then
     exit 1
 fi
 
-echo "Installation successful!"
-
 # Apparently the installer drops the license file in a location it
 # doesn't know to check.
 ln -s "${DESTINATION}"/licenses ~/Licenses
@@ -186,3 +184,7 @@ LD_LIBRARY_PATH="${DESTINATION}/ism/bin/intel64:\$LD_LIBRARY_PATH" ${executable}
 EOF
     chmod u+x "${WRAPPER}"
 done
+
+find "${DESTINATION}" -name 'libimf.*'
+
+echo "Installation successful!"
