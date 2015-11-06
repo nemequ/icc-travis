@@ -9,7 +9,7 @@ env:
 before_install:
   - ./install-icc.sh
 script:
-  - which icc
+  - cat ~/.bashrc
   - icc -o test/test test/test.c
 notifications:
   email:

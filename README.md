@@ -33,6 +33,7 @@ Currently, there are three arguments you can pass:
  - `--tmpdir`: Location for temporary files.  Default: /tmp
  - `--components`: comma-separated list of components to install.
    Valid components are:
+
    - icc
    - mpi
    - vtune
@@ -45,6 +46,7 @@ Currently, there are three arguments you can pass:
    - ipp
    - ipp-crypto
    - gdb
+
    If you do not pass a component argument, the "icc" component and
    *only* the "icc" component is installed.  If you do pass a
    component then icc will no longer be intalled by default (mainly
@@ -56,10 +58,11 @@ Use a space to separate argument names from values (*i.e.*, `--dest
 ## Restrictions
 
 ICC is *not* free software.  It's proprietary (and expensive).  Intel
-very graciously provides people developing open-source projects with
-free licenses, but there are some restrictions.  Make sure your usage
-complies with their restrictions, and do not abuse it.  Basically,
-don't do anything to screw this up for the rest of us.
+very graciously [provides people developing open-source projects with
+free licenses](https://software.intel.com/en-us/qualify-for-free-software/opensourcecontributor),
+but there are some restrictions.  Make sure your usage complies with
+their restrictions, and do not abuse it.  Basically, don't do anything
+to screw this up for the rest of us.
 
 ## License
 
