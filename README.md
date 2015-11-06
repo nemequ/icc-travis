@@ -14,6 +14,10 @@ This script was originally written for
 
 ## Usage
 
+It is currently possible to use this script with either version of
+Ubuntu which Travis currently supports (12.04 or 14.04), with or
+without sudo.
+
 The script requires the `INTEL_SERIAL_NUMBER` environment variable be
 set to your serial number.  *Do not include your serial number in your
 repository*.  Instead, you can take advantage of Travis' support for
