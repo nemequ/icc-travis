@@ -31,7 +31,7 @@ TEMPORARY_FILES="/tmp"
 PHONE_INTEL="no"
 COMPONENTS=""
 
-function add_components() {
+add_components() {
     if [ ! -z "${COMPONENTS}" ]; then
 	COMPONENTS="${COMPONENTS};"
     fi
@@ -109,9 +109,6 @@ done
 if [ -z "${COMPONENTS}" ]; then
     COMPONENTS="${COMPONENTS_IPP}"
 fi
-
-echo "${COMPONENTS}"
-exit
 
 INSTALLER="${TEMPORARY_FILES}/parallel_studio_xe_2016_online.sh"
 INSTALLER_URL="http://registrationcenter-download.intel.com/akdlm/irc_nas/7997/parallel_studio_xe_2016_online.sh"
