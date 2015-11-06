@@ -184,7 +184,7 @@ for executable in "${DESTINATION}"/bin/*; do
     cat >"${WRAPPER}" <<EOF
 #!/bin/sh
 if [ -z "\${INTEL_COMPILER_VARS_INITIALIZED}" ]; then
-  "${DESTINATION}"/compilers_and_libraries_2016/linux/bin/compilervars.sh intel64
+  /bin/bash "${DESTINATION}"/compilers_and_libraries_2016/linux/bin/compilervars.sh intel64
   export INTEL_COMPILER_VARS_INITIALIZED=yes
 fi
 echo \$LD_LIBRARY_PATH
