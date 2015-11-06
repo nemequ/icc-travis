@@ -164,8 +164,6 @@ if [ ! -e "${SUCCESS_INDICATOR}" ]; then
     exit 1
 else
     echo "Installation successful!"
-    find "${DESTINATION}" -name 'libintelremotemon.so'
-    echo "Done."
 fi
 
 # We can't just export a new path since it will not persist to the
