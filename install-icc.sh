@@ -108,7 +108,7 @@ while [ $# != 0 ]; do
 done
 
 if [ -z "${COMPONENTS}" ]; then
-    COMPONENTS="${COMPONENTS_ICC}"
+    COMPONENTS="${COMPONENTS_ICC};intel-psf-intel__x86_64;intel-icsxe-pset"
 fi
 
 INSTALLER="${TEMPORARY_FILES}/parallel_studio_xe_2016_online.sh"
