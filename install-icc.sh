@@ -166,6 +166,7 @@ if [ ! -e "${SUCCESS_INDICATOR}" ]; then
     exit 1
 else
     echo "Installation successful!"
+    cat ~/.bashrc
 fi
 
 export PATH="${DESTINATION}/bin:$PATH"
