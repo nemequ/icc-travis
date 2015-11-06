@@ -106,7 +106,7 @@ while [ $# != 0 ]; do
 done
 
 if [ -z "${COMPONENTS}" ]; then
-    COMPONENTS="${COMPONENTS_IPP}"
+    COMPONENTS="${COMPONENTS_ICC}"
 fi
 
 INSTALLER="${TEMPORARY_FILES}/parallel_studio_xe_2016_online.sh"
