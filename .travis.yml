@@ -10,7 +10,7 @@ before_install:
   - ./install-icc.sh
 script:
   - which icc
-  - /opt/intel/bin/icc -o test/test test/test.c
+  - icc -o test/test test/test.c
 notifications:
   email:
     on_success: change

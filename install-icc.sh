@@ -166,7 +166,8 @@ if [ ! -e "${SUCCESS_INDICATOR}" ]; then
     exit 1
 else
     echo "Installation successful!"
-    cat ~/.bashrc
 fi
 
-export PATH="${DESTINATION}/bin:$PATH"
+# We can't just export a new path since it will not persist to the
+# next item in our .travis.yml, so just add a line to .bashrc.
+echo "export PATH=\"${DESTINATION}/bin:\$PATH\"" >> ~/.bashrc
