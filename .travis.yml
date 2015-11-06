@@ -5,7 +5,7 @@ env:
   global:
     - secure: "UBudgeEwCcW9lHwFM8MBudW8IisCE7nsgdNeeKY8Fe+ProrcR4xk/e/E0BeRrLrggCz6NYRt8DYupsr1+cmCg3+sKeMaheinRjLV/QX0J4JvITAlPvDVS8OmEMHaehchgIajSDpAuh02TK4GSuDuLVTIZj52MC4xXVZdZQGkiTFfUbvOumlUN4LrWQgSLpoGaUDg97KNIkI8sMIb9yy0DkD3cz7/isC0p2Dh5Ks9jsnM7Tu5ZVqk8zkR3aHMoftE9eQPAtOszMCFm/xG4YUp0qHcOC2xA4FNFabInFGKCGI0JS2R/L3+4mSeg8x0SIBLC75Ru+O9PLgzyaGfRn8q2ohyDnWtznF4LrWhxl8WnG42tooRKNW389OT+n4jYs4bj/Zm6vkTTDbGd5hrBEqBU8gr6SqIWnROXkVWM1CL7gNT19IkVJ1wgKkJqIaYfvXbXTokIjpheEbv113yJSvFnnXfoUoQ2eOrmTX2Otqm4/t6z8GObUClpmSZKBmPSwn1CEg1Ej2pzrX33TIrP1sh9l+h9p8PF0Mq8sL0I5wFeTKHn9E4xsoh4UdsOSkzhFsB+ritmJPZWnGNuLnLV6qf1E5q9LDs3AaaUUBVr6NayWrmUOrFR/v58VFT5907o4nQbiZfB0L+z3h9Al2wMxRtzX8cf7VSJp+GvQsqDRMq8zY="
 before_install:
-  - ./install-icc.sh
+  - ./install-icc.sh --components icc,mkl
 script:
   - cat $HOME/.local/bin/icc
   - icc -o test/test test/test.c
