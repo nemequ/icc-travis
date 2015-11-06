@@ -108,7 +108,7 @@ while [ $# != 0 ]; do
 done
 
 if [ -z "${COMPONENTS}" ]; then
-    COMPONENTS="${COMPONENTS_ICC};intel-psf-intel__x86_64;intel-icsxe-pset"
+    COMPONENTS="${COMPONENTS_ICC};intel-psf-intel__x86_64;intel-icsxe-pset;intel-ipsf__noarch;intel-ccompxe__noarch"
 fi
 
 INSTALLER="${TEMPORARY_FILES}/parallel_studio_xe_2016_online.sh"
@@ -184,7 +184,7 @@ for executable in "${DESTINATION}"/bin/*; do
     cat >"${WRAPPER}" <<EOF
 #!/bin/sh
 if [ -z "\${INTEL_COMPILER_VARS_INITIALIZED}" ]; then
-  "${DESTINATION}"/compilers_and_libraries_2016/linux/bin/compilervars.sh
+  "${DESTINATION}"/compilers_and_libraries_2016/linux/bin/compilervars.sh intel64
   export INTEL_COMPILER_VARS_INITIALIZED=yes
 fi
 echo \$LD_LIBRARY_PATH
