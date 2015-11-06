@@ -176,7 +176,7 @@ SYMDIR="${HOME}/.local/bin"
 if [ ! -e "${SYMDIR}" ]; then
     mkdir -p "${SYMDIR}"
 fi
-for executable in "${DESTINATION}/bin/*"; do
+for executable in "${DESTINATION}"/bin/*; do
     bn=$(basename "${executable}")
     echo "ln -s \"${executable}\" \"${SYMDIR}/${bn}\""
     ln -s "${executable}" "${SYMDIR}/${bn}"
