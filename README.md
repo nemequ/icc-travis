@@ -2,7 +2,10 @@
 
 **THIS DOES NOT WORK YET**.  I'm working on it.  If you want to be
 notified when it does work, subscribe to notifications for
-[issue #1](https://github.com/nemequ/icc-travis/issues/1).
+[issue #1](https://github.com/nemequ/icc-travis/issues/1).  It is
+actually very close to working; I just need to figure out what
+package(s) to install to provide the
+[missing libraries](https://travis-ci.org/nemequ/icc-travis).
 
 This project is intended to provide an easy way to use Intel's
 [silent installer](https://software.intel.com/en-us/articles/intel-composer-xe-2015-silent-installation-guide)
