@@ -1,6 +1,5 @@
 language: c
-os:
-  - linux
+dist: trusty
 
 before_install:
   - ./install-icc.sh --components icc,openmp,ipp
