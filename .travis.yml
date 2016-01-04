@@ -3,7 +3,7 @@ dist: trusty
 sudo: required
 
 before_install:
-  - ./install-icc.sh --components icc,openmp,ipp
+  - sudo ./install-icc.sh --components icc,openmp,ipp
 script:
   - cat $HOME/.local/bin/icc
   - icc -o test/test test/test.c
