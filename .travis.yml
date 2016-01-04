@@ -3,9 +3,11 @@ dist: trusty
 sudo: required
 
 before_install:
-  - sudo ./install-icc.sh --components icc,openmp,ipp
+  - sudo ./install-icc.sh --components icc,openmp,ipp --dest /opt/intel
 script:
-  - cat $HOME/.local/bin/icc
+  - source /opt/intel/bin/compilervars.sh intel64
+  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/intel/ism/bin/intel64
+  #- cat $HOME/.local/bin/icc
   - icc -o test/test test/test.c
 notifications:
   email:

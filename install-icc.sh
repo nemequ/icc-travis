@@ -176,22 +176,9 @@ SYMDIR="${HOME}/.local/bin"
 if [ ! -e "${SYMDIR}" ]; then
     mkdir -p "${SYMDIR}"
 fi
-for executable in "${DESTINATION}"/bin/*; do
-    bn="$(basename "${executable}")"
-    WRAPPER="${SYMDIR}/${bn}"
-    cat >"${WRAPPER}" <<EOF
-#!/bin/sh
-if [ -z "\${INTEL_COMPILER_VARS_INITIALIZED}" ]; then
-  source "${DESTINATION}"/compilers_and_libraries_2016/linux/bin/compilervars.sh intel64
-  export INTEL_COMPILER_VARS_INITIALIZED=yes
-fi
-echo \$LD_LIBRARY_PATH
-LD_LIBRARY_PATH="${DESTINATION}/ism/bin/intel64:\$LD_LIBRARY_PATH" ${executable} "\$@"
-EOF
-    chmod u+x "${WRAPPER}"
-done
 
 ls -l "${DESTINATION}"/compilers_and_libraries_*/linux/bin
+
 echo "Looking for libimf..."
 find "${DESTINATION}" -name 'libimf.so*'
 
