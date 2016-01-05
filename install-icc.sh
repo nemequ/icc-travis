@@ -183,16 +183,27 @@ ln -s "${DESTINATION}"/licenses ~/Licenses
 
 # We can't just export a new path since it will not persist to the
 # next item in our .travis.yml, and adding a line to ~/.bashrc doesn't
-# work either, so we'll just dump a bunch of symlinks in a directory
+# work either, so we'll just dump a bunch of wrappers in a directory
 # which is already in $PATH.
-SYMDIR="${HOME}/.local/bin"
-if [ ! -e "${SYMDIR}" ]; then
-    mkdir -p "${SYMDIR}"
+WRAPPER_DIR="${HOME}/.local/bin"
+if [ ! -e "${WRAPPER_DIR}" ]; then
+    mkdir -p "${WRAPPER_DIR}"
+    chown 0755 "${WRAPPER_DIR}"
 fi
-
-ls -l "${DESTINATION}"/compilers_and_libraries_*/linux/bin
-
-echo "Looking for libimf..."
-find "${DESTINATION}" -name 'libimf.so*'
-
-echo "Installation successful!"
+for executable in "${DESTINATION}"/bin/*; do
+    bn="$(basename "${executable}")"
+    WRAPPER="${WRAPPER_DIR}/${bn}"
+    cat >"${WRAPPER}" <<EOF
+#!/bin/sh
+ARGUMENTS="\$@"
+while [ "\$#" -gt 0 ]; do
+    shift
+done
+if [ -z "\${INTEL_COMPILER_VARS_INITIALIZED}" ]; then
+  COMPILERVARS_ARCHITECTURE=intel64 COMPILERVARS_PLATFORM=linux . "/opt/intel/bin/compilervars.sh"
+  export INTEL_COMPILER_VARS_INITIALIZED=yes
+fi
+LD_LIBRARY_PATH="${DESTINATION}/ism/bin/intel64:\$LD_LIBRARY_PATH" "${executable}" \$ARGUMENTS
+EOF
+    chmod 0755 "${WRAPPER}"
+done

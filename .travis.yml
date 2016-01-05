@@ -7,9 +7,7 @@ env:
 before_install:
   - sudo ./install-icc.sh --components icc,openmp,ipp --dest /opt/intel
 script:
-  - source /opt/intel/bin/compilervars.sh intel64
-  - export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/intel/ism/bin/intel64
-  - icc -o test/test test/test.c
+  - icc -o test/test test/test.c && ./test/test
 notifications:
   email:
     on_success: change
