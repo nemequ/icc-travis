@@ -155,12 +155,20 @@ fi
 touch "${SUCCESS_INDICATOR}") &
 
 # So Travis doesn't die in case of a long download/installation.
+#
+# NOTE: a watched script never terminates.
 elapsed=0;
 while kill -0 $! 2>/dev/null; do
     sleep 1
     elapsed=$(expr $elapsed + 1)
     if [ $(expr $elapsed % 60) -eq 0 ]; then
-	echo "Still running... (about $(expr $elapsed / 60) minutes so far)."
+	mins_elapsed=$(expr $elapsed / 60)
+	if [ $mins_elapsed = 1 ]; then
+	    minute_string="minute"
+	else
+	    minute_string="minutes"
+	fi
+	echo "Still running... (about $(expr $elapsed / 60) ${minute_string} so far)."
     fi
 done
 
