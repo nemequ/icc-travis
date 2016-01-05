@@ -27,10 +27,14 @@ COMPONENTS_IPP_CRYPTO="intel-crypto-ipp-st-devel__x86_64;intel-crypto-ipp-ps-st-
 COMPONENTS_GDB="intel-gdb-gt__x86_64;intel-gdb-gt-src__noarch;intel-gdb-gt-libelfdwarf__x86_64;intel-gdb-gt-devel__x86_64;intel-gdb-gt-common__noarch;intel-gdb-ps-cdt__x86_64;intel-gdb-ps-cdt-source__x86_64;intel-gdb-ps-mic__x86_64;intel-gdb-ps-mpm__x86_64;intel-gdb__x86_64;intel-gdb-source__noarch;intel-gdb-python-source__noarch;intel-gdb-common__noarch;intel-gdb-ps-common__noarch"
 COMPONENTS_DAAL="intel-daal__x86_64;intel-daal-common__noarch"
 
-DESTINATION="${HOME}/intel"
+DESTINATION="/opt/intel"
 TEMPORARY_FILES="/tmp"
 PHONE_INTEL="no"
 COMPONENTS=""
+
+SUDO=""
+mkdir -p "${DESTINATION}" || SUDO=sudo
+echo "sudo: ${SUDO}"
 
 add_components() {
     if [ ! -z "${COMPONENTS}" ]; then
@@ -41,9 +45,9 @@ add_components() {
 
 while [ $# != 0 ]; do
     case "$1" in
-	"--dest")
-	    DESTINATION="$2"; shift
-	    ;;
+	# "--dest")
+	#     DESTINATION="$2"; shift
+	#     ;;
 	"--tmpdir")
 	    TEMPORARY_FILES="$2"; shift
 	    ;;
@@ -54,7 +58,6 @@ while [ $# != 0 ]; do
 	    for component in $1; do
 		case "$component" in
 		    "icc")
-			# Do nothing, we always install icc
 			add_components "${COMPONENTS_ICC}"
 		        ;;
 		    "mpi")
@@ -147,7 +150,7 @@ else
     echo "ACTIVATION_TYPE=trial_lic" >> "${SILENT_CFG}"
 fi
 
-("${INSTALLER}" \
+("${SUDO}" "${INSTALLER}" \
     -t "${TEMPORARY_FILES}" \
     -s "${SILENT_CFG}" \
     --cli-mode \
@@ -188,22 +191,19 @@ ln -s "${DESTINATION}"/licenses ~/Licenses
 WRAPPER_DIR="${HOME}/.local/bin"
 if [ ! -e "${WRAPPER_DIR}" ]; then
     mkdir -p "${WRAPPER_DIR}"
-    chown 0755 "${WRAPPER_DIR}"
+    chmod 0755 "${WRAPPER_DIR}"
 fi
 for executable in "${DESTINATION}"/bin/*; do
     bn="$(basename "${executable}")"
     WRAPPER="${WRAPPER_DIR}/${bn}"
     cat >"${WRAPPER}" <<EOF
-#!/bin/sh
-ARGUMENTS="\$@"
-while [ "\$#" -gt 0 ]; do
-    shift
-done
+#!/bin/bash
 if [ -z "\${INTEL_COMPILER_VARS_INITIALIZED}" ]; then
-  COMPILERVARS_ARCHITECTURE=intel64 COMPILERVARS_PLATFORM=linux . "/opt/intel/bin/compilervars.sh"
+  . "${DESTINATION}/bin/compilervars.sh" intel64
   export INTEL_COMPILER_VARS_INITIALIZED=yes
 fi
-LD_LIBRARY_PATH="${DESTINATION}/ism/bin/intel64:\$LD_LIBRARY_PATH" "${executable}" \$ARGUMENTS
+/opt/intel/ism/bin/intel64/libintelremotemon.so
+LD_LIBRARY_PATH="${DESTINATION}/ism/bin/intel64:\$LD_LIBRARY_PATH" "${executable}" "\$@"
 EOF
     chmod 0755 "${WRAPPER}"
 done
