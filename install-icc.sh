@@ -139,8 +139,13 @@ echo "PSET_INSTALL_DIR=${DESTINATION}" >> "${SILENT_CFG}"
 echo "CONTINUE_WITH_INSTALLDIR_OVERWRITE=yes" >> "${SILENT_CFG}"
 echo "COMPONENTS=${COMPONENTS}" >> "${SILENT_CFG}"
 echo "PSET_MODE=install" >> "${SILENT_CFG}"
-echo "ACTIVATION_TYPE=trial_lic" >> "${SILENT_CFG}"
 echo "PHONEHOME_SEND_USAGE_DATA=${PHONE_INTEL}" >> "${SILENT_CFG}"
+if [ "x" != "x${INTEL_SERIAL_NUMBER}" ]; then
+    echo "ACTIVATION_SERIAL_NUMBER=${INTEL_SERIAL_NUMBER}" >> "${SILENT_CFG}"
+    echo "ACTIVATION_TYPE=serial_number" >> "${SILENT_CFG}"
+else
+    echo "ACTIVATION_TYPE=trial_lic" >> "${SILENT_CFG}"
+fi
 
 ("${INSTALLER}" \
     -t "${TEMPORARY_FILES}" \
