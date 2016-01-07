@@ -1,12 +1,5 @@
 # Install Intel C/C++ Compiler on Travis CI
 
-**THIS DOES NOT WORK YET**.  I'm working on it.  If you want to be
-notified when it does work, subscribe to notifications for
-[issue #1](https://github.com/nemequ/icc-travis/issues/1).  It is
-actually very close to working; I just need to figure out what
-package(s) to install to provide the
-[missing libraries](https://travis-ci.org/nemequ/icc-travis/builds/89721087#L167).
-
 This project is intended to provide an easy way to use Intel's
 [silent installer](https://software.intel.com/en-us/articles/intel-composer-xe-2015-silent-installation-guide)
 to install ICC (and/or other components from Parallel Studio) on
@@ -21,16 +14,31 @@ It is currently possible to use this script with either version of
 Ubuntu which Travis currently supports (12.04 or 14.04), with or
 without sudo.
 
+There are three steps to using this script:
+
+* Specify a serial number
+* Run the script
+* source ~/.bashrc
+
+### Specify a Serial Number
+
 The script requires the `INTEL_SERIAL_NUMBER` environment variable be
 set to your serial number.  *Do not include your serial number in your
 repository*.  Instead, you can take advantage of Travis' support for
 [secure environment variables](http://docs.travis-ci.com/user/encryption-keys/).
 
+If you do not provide a serial number, the script will attempt to use
+a trial license.  That seems to work for now, but it seems like it
+might be a rather fragile solution.  I'm also not sure what the legal
+ramifications are; you should probably be using a serial number.
+
+### Run the Script
+
 Once you have your serial number in the INTEL_SERIAL_NUMBER
-environment variable, run the `install-icc.sh` script.  There are two
-main ways to go about that: you can copy the `install-icc.sh` script
-to your repository, or download the latest version from GitHub every
-time you want to run it.
+environment variable, you'll need to run the `install-icc.sh` script.
+There are two main ways to go about that: you can copy the
+`install-icc.sh` script to your repository, or download the latest
+version from GitHub every time you want to run it.
 
 The main advantage of placing a copy of `install-icc.sh` in your repo
 is stability; you know the script is not going to change in a way that
@@ -52,16 +60,15 @@ wget -q -O /dev/stdout \
   /bin/sh
 ```
 
-Finally, before actually using ICC, or running programs compiled with
-it, you need to `source ~/.bash_history`.
-
-### Arguments
+#### Arguments
 
 Currently, there are three arguments you can pass:
 
  - `--dest`: Location to install to.  Default: ${HOME}/intel
  - `--tmpdir`: Location for temporary files.  Default: /tmp
- - `--components`: comma-separated list of components to install. Valid components are:
+
+ - `--components`: comma-separated list of components to install.
+   Default: icc. Valid components are:
 
    - icc
    - mpi
@@ -76,13 +83,39 @@ Currently, there are three arguments you can pass:
    - ipp-crypto
    - gdb
 
-   If you do not pass a component argument, the "icc" component and
-   *only* the "icc" component is installed.  If you do pass a
-   component then icc will no longer be intalled by default (mainly
-   useful if you want to use FORTRAN not C).
+If you do not pass a component argument, the "icc" component and
+*only* the "icc" component is installed.  If you do pass a component
+then icc will no longer be intalled by default (mainly useful if you
+want to use FORTRAN not C).
+
+Note that the only well-tested component is currently ICC.  If you
+have issues with other components please file a bug and we'll try to
+work with you to make the process as smooth as possible.
 
 Use a space to separate argument names from values (*i.e.*, `--dest
 /opt/foo` not `--dest=/opt/foo`.
+
+### Sourcing ~/.bashrc
+
+Due to some oddities in how Travis works and ICC is set up, it's not
+feasible to have the installer script set up the environment and have
+that persist later in the build process.  The best we can do is write
+some initialization data to ~/.bashrc for you to later source into
+your environment.
+
+To do this, simply add an entry to your .travis.yml some time after
+you have invoked the installer but before you actually want to use
+ICC.  For example:
+
+```yaml
+# ...
+before_install:
+ - ./install-icc.sh
+script:
+ - source ~/.bashrc
+ - CC=icc CXX=icpc ./configure && make
+# ...
+```
 
 ## Restrictions
 
