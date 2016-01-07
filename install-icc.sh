@@ -198,7 +198,7 @@ if [ -z "\${INTEL_COMPILER_VARS_INITIALIZED}" ]; then
   . "${DESTINATION}/bin/compilervars.sh" intel64
   export INTEL_COMPILER_VARS_INITIALIZED=yes
 fi
-LD_LIBRARY_PATH="${DESTINATION}/ism/bin/intel64:\$LD_LIBRARY_PATH" "${executable}" "\$@"
+LD_LIBRARY_PATH="${DESTINATION}/ism/bin/intel64:\${DESTINATION}/lib/intel64_lin:\$LD_LIBRARY_PATH" "${executable}" "\$@"
 EOF
     chmod 0755 "${WRAPPER}"
 done
