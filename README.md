@@ -27,10 +27,10 @@ repository*.  Instead, you can take advantage of Travis' support for
 [secure environment variables](http://docs.travis-ci.com/user/encryption-keys/).
 
 Once you have your serial number in the INTEL_SERIAL_NUMBER
-environment variable, all you need to do is run the `install-icc.sh`
-script.  There are two main ways to go about that: you can copy the
-`install-icc.sh` script to your repository, or download the latest
-version from GitHub every time you want to run it.
+environment variable, run the `install-icc.sh` script.  There are two
+main ways to go about that: you can copy the `install-icc.sh` script
+to your repository, or download the latest version from GitHub every
+time you want to run it.
 
 The main advantage of placing a copy of `install-icc.sh` in your repo
 is stability; you know the script is not going to change in a way that
@@ -51,6 +51,9 @@ wget -q -O /dev/stdout \
   'https://raw.githubusercontent.com/nemequ/icc-travis/master/install-icc.sh' | \
   /bin/sh
 ```
+
+Finally, before actually using ICC, or running programs compiled with
+it, you need to `source ~/.bash_history`.
 
 ### Arguments
 

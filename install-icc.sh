@@ -180,25 +180,8 @@ fi
 # doesn't know to check.
 ln -s "${DESTINATION}"/licenses ~/Licenses
 
-# We can't just export a new path since it will not persist to the
-# next item in our .travis.yml, and adding a line to ~/.bashrc doesn't
-# work either, so we'll just dump a bunch of wrappers in a directory
-# which is already in $PATH.
-WRAPPER_DIR="${HOME}/.local/bin"
-if [ ! -e "${WRAPPER_DIR}" ]; then
-    mkdir -p "${WRAPPER_DIR}"
-    chmod 0755 "${WRAPPER_DIR}"
-fi
-for executable in "${DESTINATION}"/bin/*; do
-    bn="$(basename "${executable}")"
-    WRAPPER="${WRAPPER_DIR}/${bn}"
-    cat >"${WRAPPER}" <<EOF
-#!/bin/bash
-if [ -z "\${INTEL_COMPILER_VARS_INITIALIZED}" ]; then
-  . "${DESTINATION}/bin/compilervars.sh" intel64
-  export INTEL_COMPILER_VARS_INITIALIZED=yes
-fi
-LD_LIBRARY_PATH="${DESTINATION}/ism/bin/intel64:\${DESTINATION}/lib/intel64_lin:\$LD_LIBRARY_PATH" "${executable}" "\$@"
-EOF
-    chmod 0755 "${WRAPPER}"
-done
+# Add configuration information to ~/.bashrc.  Unfortunately this will
+# not be picked up automatically by Travis, so you'll still need to
+# source ~/.bashrc in your .travis.yml
+echo ". \"${DESTINATION}/bin/compilervars.sh\" intel64" >> ~/.bashrc
+echo "export LD_LIBRARY_PATH=\"${DESTINATION}/ism/bin/intel64:${DESTINATION}/lib/intel64_lin:\$LD_LIBRARY_PATH\"" >> ~/.bashrc
