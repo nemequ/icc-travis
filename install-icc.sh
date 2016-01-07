@@ -27,14 +27,10 @@ COMPONENTS_IPP_CRYPTO="intel-crypto-ipp-st-devel__x86_64;intel-crypto-ipp-ps-st-
 COMPONENTS_GDB="intel-gdb-gt__x86_64;intel-gdb-gt-src__noarch;intel-gdb-gt-libelfdwarf__x86_64;intel-gdb-gt-devel__x86_64;intel-gdb-gt-common__noarch;intel-gdb-ps-cdt__x86_64;intel-gdb-ps-cdt-source__x86_64;intel-gdb-ps-mic__x86_64;intel-gdb-ps-mpm__x86_64;intel-gdb__x86_64;intel-gdb-source__noarch;intel-gdb-python-source__noarch;intel-gdb-common__noarch;intel-gdb-ps-common__noarch"
 COMPONENTS_DAAL="intel-daal__x86_64;intel-daal-common__noarch"
 
-DESTINATION="/opt/intel"
+DESTINATION="${HOME}/intel"
 TEMPORARY_FILES="/tmp"
 PHONE_INTEL="no"
 COMPONENTS=""
-
-SUDO=""
-mkdir -p "${DESTINATION}" || SUDO=sudo
-echo "sudo: ${SUDO}"
 
 add_components() {
     if [ ! -z "${COMPONENTS}" ]; then
@@ -45,9 +41,9 @@ add_components() {
 
 while [ $# != 0 ]; do
     case "$1" in
-	# "--dest")
-	#     DESTINATION="$2"; shift
-	#     ;;
+	"--dest")
+	    DESTINATION="$2"; shift
+	    ;;
 	"--tmpdir")
 	    TEMPORARY_FILES="$2"; shift
 	    ;;
@@ -150,7 +146,7 @@ else
     echo "ACTIVATION_TYPE=trial_lic" >> "${SILENT_CFG}"
 fi
 
-("${SUDO}" "${INSTALLER}" \
+("${INSTALLER}" \
     -t "${TEMPORARY_FILES}" \
     -s "${SILENT_CFG}" \
     --cli-mode \
@@ -202,7 +198,6 @@ if [ -z "\${INTEL_COMPILER_VARS_INITIALIZED}" ]; then
   . "${DESTINATION}/bin/compilervars.sh" intel64
   export INTEL_COMPILER_VARS_INITIALIZED=yes
 fi
-/opt/intel/ism/bin/intel64/libintelremotemon.so
 LD_LIBRARY_PATH="${DESTINATION}/ism/bin/intel64:\$LD_LIBRARY_PATH" "${executable}" "\$@"
 EOF
     chmod 0755 "${WRAPPER}"
