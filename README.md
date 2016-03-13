@@ -28,9 +28,9 @@ repository*.  Instead, you can take advantage of Travis' support for
 [secure environment variables](http://docs.travis-ci.com/user/encryption-keys/).
 
 If you do not provide a serial number, the script will attempt to use
-a trial license.  That seems to work for now, but it seems like it
-might be a rather fragile solution.  I'm also not sure what the legal
-ramifications are; you should probably be using a serial number.
+a trial license.  That seems to work sometimes, but sometimes it doesn't;
+you probably shouldn't depend on it.  I'm also not sure what the legal
+ramifications are.
 
 ### Run the Script
 
