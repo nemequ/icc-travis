@@ -183,5 +183,12 @@ ln -s "${DESTINATION}"/licenses ~/Licenses
 # Add configuration information to ~/.bashrc.  Unfortunately this will
 # not be picked up automatically by Travis, so you'll still need to
 # source ~/.bashrc in your .travis.yml
-echo ". \"${DESTINATION}/bin/compilervars.sh\" intel64" >> ~/.bashrc
-echo "export LD_LIBRARY_PATH=\"${DESTINATION}/ism/bin/intel64:${DESTINATION}/lib/intel64_lin:\$LD_LIBRARY_PATH\"" >> ~/.bashrc
+#
+# Container-based builds include a `[ -z "$PS1" ] && return` near the
+# beginning of the file, so appending won't work, we'll need to
+# prepend.
+echo ". \"${DESTINATION}/bin/compilervars.sh\" intel64" >> ~/.bashrc-intel
+echo "export LD_LIBRARY_PATH=\"${DESTINATION}/ism/bin/intel64:${DESTINATION}/lib/intel64_lin:\$LD_LIBRARY_PATH\"" >> ~/.bashrc-intel
+echo "export PATH=\"${DESTINATION}/bin:\$PATH\"" >> ~/.bashrc-intel
+cat ~/.bashrc >> ~/.bashrc-intel
+mv ~/.bashrc-intel ~/.bashrc
