@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/jeffhammond/icc-travis.svg?branch=master)](https://travis-ci.org/jeffhammond/icc-travis)
 
-# Install Intel C/C++ Compiler on Travis CI
+# Install Intel software tools on Travis CI
 
 This project is intended to provide an easy way to use Intel's
 [silent installer](https://software.intel.com/en-us/articles/intel-composer-xe-2015-silent-installation-guide)
@@ -93,7 +93,7 @@ Currently, there are three arguments you can pass:
  - `--tmpdir`: Location for temporary files.  Default: /tmp
 
  - `--components`: comma-separated list of components to install.
-   Default: icc. Valid components are:
+   Default: icc+ifort+openmp+tbb+mkl+ipp+mpi. Valid components are:
 
    - icc
    - mpi
@@ -113,16 +113,15 @@ If you do not pass a component argument, the "icc" component and
 then icc will no longer be intalled by default (mainly useful if you
 want to use FORTRAN not C).
 
-Note that the only well-tested component is currently ICC.  If you
-have issues with other components please file a bug and we'll try to
-work with you to make the process as smooth as possible.
+If you have issues with other components please file a bug and we'll 
+try to work with you to make the process as smooth as possible.
 
 Use a space to separate argument names from values (*i.e.*, `--dest
 /opt/foo` not `--dest=/opt/foo`.
 
 ### Sourcing ~/.bashrc
 
-Due to some oddities in how Travis works and ICC is set up, it's not
+Due to some oddities in how Travis works and Intel tools are set up, it's not
 feasible to have the installer script set up the environment and have
 that persist later in the build process.  The best we can do is write
 some initialization data to ~/.bashrc for you to later source into
@@ -161,4 +160,5 @@ for details.
 
 ## Authors
 
-[Evan Nemerson](https://github.com/nemequ) created this project.
+[Evan Nemerson](https://github.com/nemequ) created this project and did all the hard work.
+[Jeff Hammond](https://github.com/jeffhammond) added tests for C++, Fortran and Intel performance libraries (e.g. MKL).
