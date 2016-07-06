@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jeffhammond/icc-travis.svg?branch=master)](https://travis-ci.org/jeffhammond/icc-travis)
+
 # Install Intel C/C++ Compiler on Travis CI
 
 This project is intended to provide an easy way to use Intel's
@@ -31,6 +33,29 @@ If you do not provide a serial number, the script will attempt to use
 a trial license.  That seems to work sometimes, but sometimes it doesn't;
 you probably shouldn't depend on it.  I'm also not sure what the legal
 ramifications are.
+
+#### Fast Path
+
+This is the short version for those who don't want to click through.
+```
+gem install travis
+cd $PATH_TO_PROJECT
+travis encrypt INTEL_SERIAL_NUMBER=XXXX-XXXXXXX
+```
+
+After this, your terminal contains something like this:
+```
+secure: "xxxxxxxxxxxxxxxxxxxx"
+```
+
+Now you edit `.travis.yml` such that it looks like this:
+```
+language: c
+sudo: false
+env:
+  global:
+    - secure: "xxxxxxxxxxxxxxxxxxxx"
+```
 
 ### Run the Script
 
@@ -133,3 +158,7 @@ waived all copyright and related or neighboring rights to this work.
 For details, see the
 [CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/)
 for details.
+
+## Authors
+
+[Evan Nemerson](https://github.com/nemequ) created this project.
