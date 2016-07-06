@@ -16,9 +16,11 @@ before_install:
   - ./install-icc.sh
   - source ~/.bashrc
 script:
-  - icc   -std=c99    test/test.c   -o test/testc
-  - icpc  -std=c++11  test/test.cxx -o test/testcxx
-  - ifort -std08 -fpp test/test.f90 -o test/testf90
+  - icc   -std=c99         test/test.c      -o test/testc
+  - icpc  -std=c++11       test/test.cxx    -o test/testcxx
+  - ifort -std08 -fpp      test/test.f90    -o test/testf90
+  - icpc  -std=c++11  -tbb test/testtbb.cxx -o test/testtbbcxx
+  - ifort -std08 -fpp -mkl test/testmkl.f90 -o test/testmklf90
 notifications:
   email:
     on_success: change
