@@ -12,9 +12,9 @@ matrix:
     - os: linux
       sudo: required
       dist: trusty
-  allow_failures:
-    - os: linux
-      sudo: false
+  #allow_failures:
+  #  - os: linux
+  #    sudo: false
 before_install:
   - ./install-icc.sh
   - source ~/.bashrc
