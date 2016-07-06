@@ -160,5 +160,5 @@ for details.
 
 ## Authors
 
-[Evan Nemerson](https://github.com/nemequ) created this project and did all the hard work.
-[Jeff Hammond](https://github.com/jeffhammond) added tests for C++, Fortran and Intel performance libraries (e.g. MKL).
+- [Evan Nemerson](https://github.com/nemequ) created this project and did all the hard work.
+- [Jeff Hammond](https://github.com/jeffhammond) added tests for C++, Fortran and Intel performance libraries (e.g. MKL).
