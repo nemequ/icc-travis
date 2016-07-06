@@ -5,18 +5,88 @@ env:
     - secure: "UBudgeEwCcW9lHwFM8MBudW8IisCE7nsgdNeeKY8Fe+ProrcR4xk/e/E0BeRrLrggCz6NYRt8DYupsr1+cmCg3+sKeMaheinRjLV/QX0J4JvITAlPvDVS8OmEMHaehchgIajSDpAuh02TK4GSuDuLVTIZj52MC4xXVZdZQGkiTFfUbvOumlUN4LrWQgSLpoGaUDg97KNIkI8sMIb9yy0DkD3cz7/isC0p2Dh5Ks9jsnM7Tu5ZVqk8zkR3aHMoftE9eQPAtOszMCFm/xG4YUp0qHcOC2xA4FNFabInFGKCGI0JS2R/L3+4mSeg8x0SIBLC75Ru+O9PLgzyaGfRn8q2ohyDnWtznF4LrWhxl8WnG42tooRKNW389OT+n4jYs4bj/Zm6vkTTDbGd5hrBEqBU8gr6SqIWnROXkVWM1CL7gNT19IkVJ1wgKkJqIaYfvXbXTokIjpheEbv113yJSvFnnXfoUoQ2eOrmTX2Otqm4/t6z8GObUClpmSZKBmPSwn1CEg1Ej2pzrX33TIrP1sh9l+h9p8PF0Mq8sL0I5wFeTKHn9E4xsoh4UdsOSkzhFsB+ritmJPZWnGNuLnLV6qf1E5q9LDs3AaaUUBVr6NayWrmUOrFR/v58VFT5907o4nQbiZfB0L+z3h9Al2wMxRtzX8cf7VSJp+GvQsqDRMq8zY="
 matrix:
   include:
+    ##
+    # Test basic installation with different Travis environments
+    ##
+    # Ubuntu 12.04 container build
     - os: linux
       sudo: false
+      env: COMPONENTS=icc
+    # Ubuntu 12.04 VM
     - os: linux
       sudo: required
+      env: COMPONENTS=icc
+    # Ubuntu 14.04 VM
     - os: linux
       sudo: required
       dist: trusty
+      env: COMPONENTS=icc
+
+    ##
+    # Test individual components
+    ##
+    # IPP
+    - os: linux
+      sudo: false
+      env: COMPONENTS="icc,ipp"
+    # TBB
+    - os: linux
+      sudo: false
+      env: COMPONENTS="icc,tbb"
+    # DAAL
+    - os: linux
+      sudo: false
+      env: COMPONENTS="icc,daal"
+    # MPI
+    - os: linux
+      sudo: false
+      env: COMPONENTS="icc,mpi"
+    # Fortran
+    - os: linux
+      sudo: false
+      env: COMPONENTS="icc,ifort"
+    # Fortran + MKL
+    - os: linux
+      sudo: false
+      env: COMPONENTS="icc,ifort,mkl"
+    # Fortran + MPI
+    - os: linux
+      sudo: false
+      env: COMPONENTS="icc,ifort,mpi"
+
+    # # Everything (for debugging without taxing Travis too heavily)
+    # - os: linux
+    #   sudo: false
+    #   env: COMPONENTS="icc,ifort,mpi,daal,ipp,tbb,mkl"
 before_install:
-  - ./install-icc.sh
+  - ./install-icc.sh --components "${COMPONENTS}"
   - source ~/.bashrc
 script:
-  - icc -o test/test test/test.c
+  # C compiler
+  - '[[ "${COMPONENTS}" != *"icc"* ]] || (icc -std=c99 test/test.c -o test/test-c99 && ./test/test-c99)'
+  # C++ compiler
+  - '[[ "${COMPONENTS}" != *"icc"* ]] || (icpc -std=c++11 test/test.cxx -o test/test-c++11 && ./test/test-c++11)'
+  # Cilk support
+  - '[[ "${COMPONENTS}" != *"icc"* ]] || (icc -std=c99 test/test-cilk.c -o test/test-cilk && ./test/test-cilk)'
+  # Fortran 90 compiler
+  - '[[ "${COMPONENTS}" != *"ifort"* ]] || (ifort -std08 -fpp test/test.f90 -o test/test-f90 && ./test/test-f90)'
+  # MPI-3
+  - '[[ "${COMPONENTS}" != *"mpi"* ]] || (mpiicc -std=c99 test/test-mpi.c -o test/test-mpi && ./test/test-mpi)'
+  # IPP
+  - '[[ "${COMPONENTS}" != *"ipp"* ]] || (icc -std=c99 -ipp test/test-ipp.c -o test/test-ipp && ./test/test-ipp)'
+  # DAAL
+  - '[[ "${COMPONENTS}" != *"daal"* ]] || (icpc -std=c++11 -daal test/test-daal.cxx -o test/test-daal && ./test/test-daal)'
+  # TBB
+  - '[[ "${COMPONENTS}" != *"tbb"* ]] || (icpc -std=c++11 -tbb test/test-tbb.cxx -o test/test-tbb && ./test/test-tbb)'
+  # MKL CBLAS
+  - '[[ "${COMPONENTS}" != *"mkl"* ]] || (icc -std=c99 -mkl test/test-mkl.c -o test/test-mkl && ./test/test-mkl)'
+  # Fortran MKL
+  - '[[ "${COMPONENTS}" != *"ifort"* || "${COMPONENTS}" != *"mkl"* ]] || (ifort -std08 -mkl test/test-mkl.f90 -o test/test-mkl-fortran && ./test/test-mkl-fortran)'
+  # Fortran MPI-2
+  - '[[ "${COMPONENTS}" != *"ifort"* || "${COMPONENTS}" != *"mkl"* || "${COMPONENTS}" != *"mpi"* ]] || (mpiifort -std08 test/test-mpi.f90 -o test/test-mpi-fortran && ./test/test-mpi-fortran)'
+  # Fortran 2008 MPI-3
+  - '[[ "${COMPONENTS}" != *"ifort"* || "${COMPONENTS}" != *"mkl"* || "${COMPONENTS}" != *"mpi"* ]] || (mpiifort -std08 test/test-mpi-f08.f90 -o test/test-mpi-f08 && ./test/test-mpi-f08)'
+
 notifications:
   email:
     on_success: change

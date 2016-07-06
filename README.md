@@ -75,7 +75,7 @@ Currently, there are three arguments you can pass:
    - vtune
    - inspector
    - advisor
-   - openmp
+   - daal
    - tbb
    - ifort
    - mkl
