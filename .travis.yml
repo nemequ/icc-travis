@@ -20,20 +20,20 @@ script:
   - icc   -std=c99          test/test.c       -o test/testc
   # C++11 compiler
   - icpc  -std=c++11        test/test.cxx     -o test/testcxx
-  # Fortran 90+ compiler
-  - ifort -std08 -fpp       test/test.f90     -o test/testf90
   # Cilk extensions in C
   - icc                     test/testcilk.c   -o test/testcilkc
-  # TBB library for C++
-  - icpc              -tbb  test/testtbb.cxx  -o test/testtbbcxx
-  # Fortran MKL runtime
-  - ifort             -mkl  test/testmkl.f90  -o test/testmklf90
   # MPI-2 library
   - mpiicc                  test/testmpi.c    -o test/testmpic
   # IPP library in C
   - icc               -ipp  test/testipp.c    -o test/testippc
   # DAAL library in C++
   - icpc              -daal test/testdaal.cxx -o test/testdaalcxx
+  # TBB library for C++
+  #- icpc              -tbb  test/testtbb.cxx  -o test/testtbbcxx
+  # Fortran MKL runtime
+  #- ifort             -mkl  test/testmkl.f90  -o test/testmklf90
+  # Fortran 90+ compiler
+  #- ifort -std08 -fpp       test/test.f90     -o test/testf90
 notifications:
   email:
     on_success: change
