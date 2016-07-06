@@ -33,6 +33,8 @@ script:
   - icpc   -std=c++11  -daal test/testdaal.cxx     -o test/testdaalcxx
   # TBB library for C++
   - icpc   -std=c++11  -tbb  test/testtbb.cxx      -o test/testtbbcxx
+  # MKL CBLAS library
+  - icc    -std=c99    -mkl  test/testmkl.c        -o test/testmklc
   # Fortran MKL runtime
   - ifort  -std08      -mkl  test/testmkl.f90      -o test/testmklf90
   # Fortran 90+ compiler
