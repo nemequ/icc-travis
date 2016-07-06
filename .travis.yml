@@ -20,23 +20,29 @@ before_install:
   - source ~/.bashrc
 script:
   # C99 compiler
-  - icc    -std=c99          test/test.c       -o test/testc
+  - icc    -std=c99          test/test.c           -o test/testc
   # C++11 compiler
-  - icpc   -std=c++11        test/test.cxx     -o test/testcxx
+  - icpc   -std=c++11        test/test.cxx         -o test/testcxx
   # Cilk extensions in C (on by default)
-  - icc    -std=c99          test/testcilk.c   -o test/testcilkc
-  # MPI-2 library
-  - mpiicc -std=c99          test/testmpi.c    -o test/testmpic
+  - icc    -std=c99          test/testcilk.c       -o test/testcilkc
+  # MPI-3 library
+  - mpiicc -std=c99          test/testmpi.c        -o test/testmpic
   # IPP library in C
-  - icc    -std=c99    -ipp  test/testipp.c    -o test/testippc
+  - icc    -std=c99    -ipp  test/testipp.c        -o test/testippc
   # DAAL library in C++
-  - icpc   -std=c++11  -daal test/testdaal.cxx -o test/testdaalcxx
+  - icpc   -std=c++11  -daal test/testdaal.cxx     -o test/testdaalcxx
   # TBB library for C++
-  - icpc   -std=c++11  -tbb  test/testtbb.cxx  -o test/testtbbcxx
+  - icpc   -std=c++11  -tbb  test/testtbb.cxx      -o test/testtbbcxx
+  # MKL CBLAS library
+  - icc    -std=c99    -mkl  test/testmkl.c        -o test/testmklc
   # Fortran MKL runtime
-  - ifort  -std08      -mkl  test/testmkl.f90  -o test/testmklf90
+  - ifort  -std08      -mkl  test/testmkl.f90      -o test/testmklf90
   # Fortran 90+ compiler
-  - ifort  -std08 -fpp       test/test.f90     -o test/testf90
+  - ifort  -std08 -fpp       test/test.f90         -o test/testf90
+  # Fortran MPI-2 library
+  - mpiifort  -std08 -fpp    test/testmpi.f90      -o test/testmpif90
+  # Fortran 2008 MPI-3 library
+  - mpiifort  -std08 -fpp    test/testmpi_f08.f90  -o test/testmpif08
 notifications:
   email:
     on_success: change
