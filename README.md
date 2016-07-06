@@ -34,6 +34,29 @@ a trial license.  That seems to work sometimes, but sometimes it doesn't;
 you probably shouldn't depend on it.  I'm also not sure what the legal
 ramifications are.
 
+#### Fast Path
+
+This is the short version for those who don't want to click through.
+```
+gem install travis
+cd $PATH_TO_PROJECT
+travis encrypt INTEL_SERIAL_NUMBER=XXXX-XXXXXXX
+```
+
+After this, your terminal contains something like this:
+```
+secure: "xxxxxxxxxxxxxxxxxxxx"
+```
+
+Now you edit `.travis.yml` such that it looks like this:
+```
+language: c
+sudo: false
+env:
+  global:
+    - secure: "xxxxxxxxxxxxxxxxxxxx"
+```
+
 ### Run the Script
 
 Once you have your serial number in the INTEL_SERIAL_NUMBER
