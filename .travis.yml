@@ -29,11 +29,11 @@ script:
   # DAAL library in C++
   - icpc              -daal test/testdaal.cxx -o test/testdaalcxx
   # TBB library for C++
-  #- icpc              -tbb  test/testtbb.cxx  -o test/testtbbcxx
+  - icpc              -tbb  test/testtbb.cxx  -o test/testtbbcxx
   # Fortran MKL runtime
-  #- ifort             -mkl  test/testmkl.f90  -o test/testmklf90
+  - ifort             -mkl  test/testmkl.f90  -o test/testmklf90
   # Fortran 90+ compiler
-  #- ifort -std08 -fpp       test/test.f90     -o test/testf90
+  - ifort -std08 -fpp       test/test.f90     -o test/testf90
 notifications:
   email:
     on_success: change
