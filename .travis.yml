@@ -22,6 +22,7 @@ script:
   - icc                    test/testcilk.c  -o test/testcilkc
   - icpc              -tbb test/testtbb.cxx -o test/testtbbcxx
   - ifort             -mkl test/testmkl.f90 -o test/testmklf90
+  - mpiicc                 test/testmpi.c   -o test/testmpic
 notifications:
   email:
     on_success: change
