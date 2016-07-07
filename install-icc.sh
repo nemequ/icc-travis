@@ -121,6 +121,8 @@ if [ -z "${COMPONENTS}" ]; then
     COMPONENTS="${COMPONENTS_DEFAULT}" # build-in options include DEFAULTS and ALL
 fi
 
+echo "Installing components: ${COMPONENTS}"
+
 # OLD
 #INSTALLER="${TEMPORARY_FILES}/parallel_studio_xe_2016_online.sh"
 #INSTALLER_URL="http://registrationcenter-download.intel.com/akdlm/irc_nas/7997/parallel_studio_xe_2016_online.sh"
