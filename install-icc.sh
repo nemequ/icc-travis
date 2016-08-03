@@ -181,7 +181,7 @@ while kill -0 $! 2>/dev/null; do
     fi
 done
 
-if [ ! -e "${SUCCESS_INDICATOR}" ]; then
+if [ ! -e "${SUCCESS_INDICATOR}" -o ! -e "${DESTINATION}/bin/compilervars.sh" ]; then
     echo "Installation failed."
     exit 1
 fi
