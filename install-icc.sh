@@ -118,6 +118,10 @@ if [ -z "${COMPONENTS}" ]; then
     COMPONENTS="${COMPONENTS_ICC}"
 fi
 
+if [ -e "${TEMPORARY_FILES}" ]; then
+    TEMPORARY_FILES="${TEMPORARY_FILES}/icc-travis"
+fi
+
 INSTALLER_SCRIPT="parallel_studio_xe_2016_update3_online.sh"
 INSTALLER="${TEMPORARY_FILES}/${INSTALLER_SCRIPT}"
 INSTALLER_URL="http://registrationcenter-download.intel.com/akdlm/irc_nas/9061/${INSTALLER_SCRIPT}"
@@ -197,7 +201,10 @@ while [ $attempt -le 3 ]; do
 	break
     fi
 
+    rm -vrf "${TEMPORARY_FILES}"/*
     echo "Trying again..."
+
+    attempt=$(expr $attempt + 1)
 done
 
 if [ ! -e "${DESTINATION}/bin/compilervars.sh" ]; then
