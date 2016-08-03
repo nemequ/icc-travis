@@ -156,34 +156,53 @@ else
     echo "ACTIVATION_TYPE=trial_lic" >> "${SILENT_CFG}"
 fi
 
-("${INSTALLER}" \
-    -t "${TEMPORARY_FILES}" \
-    -s "${SILENT_CFG}" \
-    --cli-mode \
-    --user-mode && \
-touch "${SUCCESS_INDICATOR}") &
+attempt=1;
+while [ $attempt -le 3 ]; do
+    ("${INSTALLER}" \
+	 -t "${TEMPORARY_FILES}" \
+	 -s "${SILENT_CFG}" \
+	 --cli-mode \
+	 --user-mode && \
+	 touch "${SUCCESS_INDICATOR}") &
 
-# So Travis doesn't die in case of a long download/installation.
-#
-# NOTE: a watched script never terminates.
-elapsed=0;
-while kill -0 $! 2>/dev/null; do
-    sleep 1
-    elapsed=$(expr $elapsed + 1)
-    if [ $(expr $elapsed % 60) -eq 0 ]; then
-	mins_elapsed=$(expr $elapsed / 60)
-	if [ $mins_elapsed = 1 ]; then
-	    minute_string="minute"
-	else
-	    minute_string="minutes"
+    # So Travis doesn't die in case of a long download/installation.
+    #
+    # NOTE: a watched script never terminates.
+    elapsed=0;
+    while kill -0 $! 2>/dev/null; do
+	sleep 1
+	elapsed=$(expr $elapsed + 1)
+	if [ $(expr $elapsed % 60) -eq 0 ]; then
+	    mins_elapsed=$(expr $elapsed / 60)
+	    if [ $mins_elapsed = 1 ]; then
+		minute_string="minute"
+	    else
+		minute_string="minutes"
+	    fi
+	    echo "Still running... (about $(expr $elapsed / 60) ${minute_string} so far)."
 	fi
-	echo "Still running... (about $(expr $elapsed / 60) ${minute_string} so far)."
+    done
+
+    if [ ! -e "${SUCCESS_INDICATOR}" ]; then
+	echo "Installation failed."
+	exit 1
     fi
+
+    if [ ! -e "${DESTINATION}/bin/compilervars.sh" ]; then
+	# Sometimes the installer returns successfully without actually
+	# installing anything.  Let's try again…
+	echo "Installation attempt #${attempt} completed, but unable to find compilervars.sh."
+	find "${DESTINATION}"
+    else
+	break
+    fi
+
+    echo "Trying again..."
 done
 
-if [ ! -e "${SUCCESS_INDICATOR}" -o ! -e "${DESTINATION}/bin/compilervars.sh" ]; then
-    echo "Installation failed."
-    exit 1
+if [ ! -e "${DESTINATION}/bin/compilervars.sh" ]; then
+	echo "Installation failed."
+	exit 1
 fi
 
 # Apparently the installer drops the license file in a location it
