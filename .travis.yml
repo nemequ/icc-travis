@@ -88,6 +88,9 @@ script:
   # Fortran 2008 MPI-3
   - '[[ "${COMPONENTS}" != *"ifort"* || "${COMPONENTS}" != *"mkl"* || "${COMPONENTS}" != *"mpi"* ]] || (mpiifort -std08 test/test-mpi-f08.f90 -o test/test-mpi-f08 && ./test/test-mpi-f08)'
 
+after_script:
+  - '[[ ! -z "${INTEL_INSTALL_PATH}" ]] && uninstall_intel_software'
+
 notifications:
   email:
     on_success: change

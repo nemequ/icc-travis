@@ -16,11 +16,13 @@ It is currently possible to use this script with either version of
 Ubuntu which Travis currently supports (12.04 or 14.04), with or
 without sudo.
 
-There are three steps to using this script:
+Steps to using this script:
 
 * Specify a serial number
 * Run the script
 * source ~/.bashrc
+* Uninstall when finished (optional, but may help avoid an error due
+  to too many activations).
 
 ### Specify a Serial Number
 
@@ -139,6 +141,23 @@ script:
  - source ~/.bashrc
  - CC=icc CXX=icpc ./configure && make
 # ...
+```
+
+### Uninstall
+
+Some users have reported getting an error message about "Maximum
+number of activations exceeded" (see
+[issue #3](https://github.com/nemequ/icc-travis/issues/3)).  I haven't
+been able to reproduce this, but
+[according to Intel](https://software.intel.com/en-us/articles/what-to-do-when-you-see-the-message-maximum-number-of-activations-exceeded)
+uninstalling existing installations should help.  Since we can't
+access old containers/VMs, we need to proactively uninstall before the
+container/VM is thrown away, which can be done by adding this to your
+.travis.yml:
+
+```yaml
+after_script:
+  - '[[ ! -z "${INTEL_INSTALL_PATH}" ]] && uninstall_intel_software'
 ```
 
 ## Restrictions
