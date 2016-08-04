@@ -118,10 +118,6 @@ if [ -z "${COMPONENTS}" ]; then
     COMPONENTS="${COMPONENTS_ICC}"
 fi
 
-if [ -e "${TEMPORARY_FILES}" ]; then
-    TEMPORARY_FILES="${TEMPORARY_FILES}/icc-travis"
-fi
-
 INSTALLER_SCRIPT="parallel_studio_xe_2016_update3_online.sh"
 INSTALLER="${TEMPORARY_FILES}/${INSTALLER_SCRIPT}"
 INSTALLER_URL="http://registrationcenter-download.intel.com/akdlm/irc_nas/9061/${INSTALLER_SCRIPT}"
@@ -162,8 +158,12 @@ fi
 
 attempt=1;
 while [ $attempt -le 3 ]; do
+    if [ ! -e "${TEMPORARY_FILES}/parallel-studio-install-data" ]; then
+	mkdir -p "${TEMPORARY_FILES}/parallel-studio-install-data" || (sudo mkdir -p "${TEMPORARY_FILES}/parallel-studio-install-data" && sudo chown -R "${USER}:${USER}" "${TEMPORARY_FILES}")
+    fi
+
     ("${INSTALLER}" \
-	 -t "${TEMPORARY_FILES}" \
+	 -t "${TEMPORARY_FILES}/parallel-studio-install-data" \
 	 -s "${SILENT_CFG}" \
 	 --cli-mode \
 	 --user-mode && \
@@ -201,7 +201,7 @@ while [ $attempt -le 3 ]; do
 	break
     fi
 
-    rm -vrf "${TEMPORARY_FILES}"/*
+    rm -vrf "${TEMPORARY_FILES}/parallel-studio-install-data"
     echo "Trying again..."
 
     attempt=$(expr $attempt + 1)
