@@ -1,6 +1,6 @@
 # Install Intel software tools on Travis CI
 
-[![Build Status](https://travis-ci.org/nemequ/icc-travis.svg?branch=master)](https://travis-ci.org/jeffhammond/icc-travis)
+[![Build Status](https://travis-ci.org/nemequ/icc-travis.svg?branch=master)](https://travis-ci.org/nemequ/icc-travis)
 
 This project is intended to provide an easy way to use Intel's
 [silent installer](https://software.intel.com/en-us/articles/intel-composer-xe-2015-silent-installation-guide)
